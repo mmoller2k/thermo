@@ -3,7 +3,7 @@
 #include <DallasTemperature.h>
 
 #define tDelay 250
-#define ONE_WIRE_BUS 0
+#define ONE_WIRE_BUS A0
 #define PUMP 11 //for voltage doubler
 
 unsigned long t0=0;
