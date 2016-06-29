@@ -24,6 +24,7 @@ void setup()
   analogWrite(PUMP,128); //generate square wave
   x7seg.lampTest();
   x7seg.delayms(500);
+  x7seg.clear();
   sensors.begin();
   while(!sensors.getAddress(tempSensor, 0)) 
   {
