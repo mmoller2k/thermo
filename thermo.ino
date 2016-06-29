@@ -73,11 +73,14 @@ void showTemp(float T)
     T=-T;
   }
   val=T*10.0+0.5;
-  if(val<1000){
+  if(sign>0 && val<1000){ //up to 3 digits positive
+    x7seg.setDot(0);
+  }
+  else if(sign<0 && val<100){ //up to 2 digits negative
     x7seg.setDot(0);
   }
   else{
-    val = (val+5) / 10;
+    val = (val+5) / 10; //else drop the decimal
     x7seg.clearDot();
   }
   x7seg.print(val*sign);
