@@ -23,13 +23,13 @@ void setup()
   pinMode(PUMP, OUTPUT);
   analogWrite(PUMP,128); //generate square wave
   x7seg.lampTest();
-  x7seg.delayms(500);
+  x7seg.delay(500);
   x7seg.clear();
   sensors.begin();
   while(!sensors.getAddress(tempSensor, 0)) 
   {
      showError();
-     x7seg.delayms(200);
+     x7seg.delay(200);
   }
   sensors.setResolution(tempSensor, 12);
   sensors.setWaitForConversion(false);
@@ -52,9 +52,9 @@ void loop()
   }
   else while(!sensors.isConnected(0)){
     showError();
-    x7seg.delayms(200);
+    x7seg.delay(200);
   }
-  x7seg.delayms(50);
+  x7seg.delay(50);
 }
 
 void showError(void)
