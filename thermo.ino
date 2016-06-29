@@ -22,12 +22,13 @@ void setup()
   x7seg.attach_symb(8,9,10); //three digits
   pinMode(PUMP, OUTPUT);
   analogWrite(PUMP,128); //generate square wave
+  x7seg.lampTest();
   delay(500); //wait for pump to charge
   sensors.begin();
   while(!sensors.getAddress(tempSensor, 0)) 
   {
-     showerror();
-     delay(500);
+     showError();
+     delay(200);
   }
   sensors.setResolution(tempSensor, 12);
   sensors.setWaitForConversion(false);
@@ -38,7 +39,7 @@ void loop()
   unsigned long now = millis();
   if(now-t0 >= tDelay){
     t0 = now;
-    x7seg.print(count);
+    //x7seg.print(count);
     if(count>199)count=-99;
     else count++;
   }
@@ -48,10 +49,14 @@ void loop()
     sensors.requestTemperatures(); // prime the pump for the next one - but don't wait
     showTemp(Input);
   }
+  else while(!sensors.isConnected(0)){
+    showError();
+    delay(200);
+  }
   x7seg.multiplex();
 }
 
-void showerror(void)
+void showError(void)
 {
   x7seg.setSymbol(2,'E');
   x7seg.setSymbol(1,'r');
@@ -60,10 +65,10 @@ void showerror(void)
 
 void showTemp(float T)
 {
-  int sign=0;
+  int sign=1;
   int val;
   if(T<0){
-    sign=1;
+    sign=-1;
     T=-T;
   }
   val=T*10.0+0.5;
@@ -71,8 +76,9 @@ void showTemp(float T)
     x7seg.setDot(0);
   }
   else{
-    val /= 10;
+    val = (val+5) / 10;
     x7seg.clearDot();
   }
+  x7seg.print(val*sign);
 }
 
